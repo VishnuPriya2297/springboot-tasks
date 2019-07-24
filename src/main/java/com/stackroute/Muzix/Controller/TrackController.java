@@ -1,6 +1,7 @@
 package com.stackroute.Muzix.Controller;
 
 import com.stackroute.Muzix.domain.Track;
+import com.stackroute.Muzix.exceptions.TrackAlreadyExsistsException;
 import com.stackroute.Muzix.service.TrackService;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
@@ -42,24 +43,52 @@ TrackService trackService;
     @DeleteMapping("track/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id )
     {
+
         ResponseEntity responseEntity;
         trackService.deleteTrack(id);
         responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.FORBIDDEN);
         return responseEntity;
     }
-   @GetMapping("track/{name}")
-   @Query("from Track where name=?1 ")
+    @GetMapping("track/{id}")
+    public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
+    {
+        ResponseEntity responseEntity;
+        try {
+            responseEntity=new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+        return responseEntity;
+    }
+
+   @GetMapping("trackname/{name}")
+   //@Query("from Track where name=?1 ")
    public ResponseEntity<?> getAllUsersByName(@PathVariable(value = "name") String name )
    {
-       return  new ResponseEntity<List<Track>>(trackService.getTrackByName(name),HttpStatus.OK);
+       ResponseEntity responseEntity;
+       try {
+           responseEntity= new ResponseEntity<List<Track>>(trackService.getTrackByName(name), HttpStatus.OK);
+       }
+       catch (Exception e)
+       {
+           responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+       }
+       return responseEntity;
    }
     @PutMapping("track")
     public ResponseEntity<?> updateUser(@RequestBody Track track)
     {
         ResponseEntity responseEntity;
-        trackService.saveTrack(track);
+        try {
+            trackService.saveTrack(track);
+        } catch (TrackAlreadyExsistsException e) {
+            e.printStackTrace();
+        }
         responseEntity=new ResponseEntity<String>("successfully Updated", HttpStatus.CREATED);
         return responseEntity;
     }
+
 
 }

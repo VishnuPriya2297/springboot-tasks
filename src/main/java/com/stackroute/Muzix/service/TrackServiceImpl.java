@@ -1,6 +1,8 @@
 package com.stackroute.Muzix.service;
 
 import com.stackroute.Muzix.domain.Track;
+import com.stackroute.Muzix.exceptions.TrackAlreadyExsistsException;
+import com.stackroute.Muzix.exceptions.TrackNotFoundException;
 import com.stackroute.Muzix.repository.TrackRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,15 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track saveTrack(Track track) {
+    public Track saveTrack(Track track) throws TrackAlreadyExsistsException {
+        if(trackRepository.existsById(track.getId()))
+        {
+            throw new TrackAlreadyExsistsException("Track already exsists");
+        }
+
         Track savedTracks=trackRepository.save(track);
+        if(savedTracks==null)
+            throw new TrackAlreadyExsistsException("User already exsists");
         return savedTracks;
     }
 
@@ -35,9 +44,18 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track getTrackById(int id) {
-        Track track=trackRepository.findById(id).get();
-        return track;
+    public Track getTrackById(int id) throws TrackNotFoundException {
+
+        if(!trackRepository.findById(id).isPresent()) {
+            throw new TrackNotFoundException("The track does not exsist");
+
+        }
+        else
+        {
+            Track track = trackRepository.findById(id).get();
+            return track;
+
+        }
     }
 
     @Override
@@ -46,9 +64,14 @@ public class TrackServiceImpl implements TrackService {
         return updatedTrack;
     }
     @Override
-    public List<Track> getTrackByName(String name)
+    public List<Track> getTrackByName(String name) throws TrackNotFoundException
     {
-        List<Track> track=trackRepository.findByName(name);
-        return track;
+        if(trackRepository.findByName(name).isEmpty()) {
+            throw new TrackNotFoundException("The track does not exsist");
+        }
+        else {
+            List<Track> track = trackRepository.findByName(name);
+            return track;
+        }
     }
 }
