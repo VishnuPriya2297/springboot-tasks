@@ -45,4 +45,10 @@ public class TrackServiceImpl implements TrackService {
         Track updatedTrack=trackRepository.save(track);
         return updatedTrack;
     }
+    @Override
+    public List<Track> getTrackByName(String name)
+    {
+        List<Track> track=trackRepository.findByName(name);
+        return track;
+    }
 }
