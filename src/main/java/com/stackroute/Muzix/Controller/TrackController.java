@@ -38,6 +38,19 @@ TrackService trackService;
     {
         return  new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
     }
+     @GetMapping("track/{id}")
+    public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
+    {
+        ResponseEntity responseEntity;
+        try {
+            responseEntity=new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+        return responseEntity;
+    }
     @DeleteMapping("track/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id )
     {
