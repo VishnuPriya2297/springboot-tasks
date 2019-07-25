@@ -53,10 +53,11 @@ TrackService trackService;
     public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
     {
         ResponseEntity responseEntity;
-        try {
-            responseEntity=new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
-        }
-        catch (Exception e)
+       try {
+           responseEntity = new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
+       }
+
+       catch(Exception e)
         {
             responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
         }
