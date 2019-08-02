@@ -14,7 +14,8 @@ import java.util.Optional;
 @Service
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepository trackRepository;
+    private TrackRepository trackRepository;
+
     @Autowired
     public TrackServiceImpl(TrackRepository trackRepository) {
         this.trackRepository = trackRepository;
@@ -63,7 +64,8 @@ public class TrackServiceImpl implements TrackService {
         Track updatedTrack=trackRepository.save(track);
         return updatedTrack;
     }
-    @Override
+
+  /*  @Override
     public List<Track> getTrackByName(String name) throws TrackNotFoundException
     {
         if(trackRepository.findByName(name).isEmpty()) {
@@ -73,5 +75,5 @@ public class TrackServiceImpl implements TrackService {
             List<Track> track = trackRepository.findByName(name);
             return track;
         }
-    }
+    }*/
 }

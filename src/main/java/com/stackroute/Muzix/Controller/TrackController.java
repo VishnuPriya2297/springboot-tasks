@@ -3,6 +3,7 @@ package com.stackroute.Muzix.Controller;
 import com.stackroute.Muzix.domain.Track;
 import com.stackroute.Muzix.exceptions.TrackAlreadyExsistsException;
 import com.stackroute.Muzix.service.TrackService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,15 @@ import java.util.List;
 @RequestMapping(value = "api/v1")
 public class TrackController
 {
-TrackService trackService;
+
+    @Autowired
+    TrackService trackService;
 
     public TrackController(TrackService trackService)
     {
         this.trackService = trackService;
     }
+
     @PostMapping("track")
     public ResponseEntity<?> save(@RequestBody Track track)
     {
@@ -64,7 +68,7 @@ TrackService trackService;
         return responseEntity;
     }
 
-   @GetMapping("trackname/{name}")
+ /*  @GetMapping("trackname/{name}")
    //@Query("from Track where name=?1 ")
    public ResponseEntity<?> getAllUsersByName(@PathVariable(value = "name") String name )
    {
@@ -77,7 +81,8 @@ TrackService trackService;
            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
        }
        return responseEntity;
-   }
+   }*/
+
     @PutMapping("track")
     public ResponseEntity<?> updateUser(@RequestBody Track track)
     {
