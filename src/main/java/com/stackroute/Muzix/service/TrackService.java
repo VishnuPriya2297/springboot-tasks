@@ -10,7 +10,7 @@ public interface TrackService {
 
     public Track saveTrack(Track track) throws TrackAlreadyExsistsException;
 
-    public void deleteTrack(int id);
+    public boolean deleteTrack(int id);
 
     public List<Track> getAllTracks();
 
