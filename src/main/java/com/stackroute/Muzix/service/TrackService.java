@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface TrackService {
 
-    public Track saveTrack(Track track);
+    Track saveTrack(Track track);
 
-    public void deleteTrack(int id);
+    void deleteTrack(int id);
 
-    public List<Track> getAllTracks();
+     List<Track> getAllTracks();
 
-    public Track getTrackById(int id);
+    Track getTrackById(int id);
 
-    public Track updateTrack(Track track);
+    Track updateTrack(Track track);
 
 }
