@@ -8,16 +8,16 @@ import java.util.List;
 
 public interface TrackService {
 
-    public Track saveTrack(Track track) throws TrackAlreadyExsistsException;
+     Track saveTrack(Track track) throws TrackAlreadyExsistsException;
 
-    public void deleteTrack(int id);
+     void deleteTrack(int id);
 
-    public List<Track> getAllTracks();
+     List<Track> getAllTracks();
 
-    public Track getTrackById(int id)throws TrackNotFoundException;
+     Track getTrackById(int id)throws TrackNotFoundException;
 
-    public Track updateTrack(Track track);
+     Track updateTrack(Track track);
 
-    public List<Track> getTrackByName(String name)throws TrackNotFoundException;
+     List<Track> getTrackByName(String name)throws TrackNotFoundException;
 
 }
