@@ -36,19 +36,15 @@ private TrackService trackService;
         return responseEntity;
     }
     @GetMapping("track")
-    public ResponseEntity<?> getallUsers()
+    public ResponseEntity<?> getAllTracks(ModelMap model)
     {
-        return  new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
-    }
-    @DeleteMapping("track/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id )
-    {
-
         ResponseEntity responseEntity;
-        trackService.deleteTrack(id);
-        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.FORBIDDEN);
-        return responseEntity;
+		List<Track> trackList = trackService.getAllTracks();
+		model.addAttribute("trackList", trackList);
+		responseEntity = new ResponseEntity<List<Track>>(trackList, HttpStatus.OK);
+		return responseEntity;
     }
+   
     @GetMapping("track/{id}")
     public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
     {
@@ -90,6 +86,15 @@ private TrackService trackService;
         responseEntity=new ResponseEntity<String>("successfully Updated", HttpStatus.CREATED);
         return responseEntity;
     }
+    @DeleteMapping("track/{id}") throws TrackNotFoundException
+    public ResponseEntity<?> deleteTrack(@PathVariable(value = "id") Integer id )
+    {
+        ResponseEntity responseEntity=null;
+        trackService.deleteTrack(id);
+        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.OK);
+        return responseEntity;
+    }
+   
 
 
 }
