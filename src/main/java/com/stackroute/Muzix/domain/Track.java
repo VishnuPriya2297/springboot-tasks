@@ -7,15 +7,15 @@ import javax.persistence.Id;
 public class Track {
     public Track(int id, String name, String comment) {
         this.id = id;
-        
-        this.name = name;
-        
+        this.name = name;    
         this.comment = comment;
     }
 
     @Id
     private int id;
+    
     private String name;
+    
     private String comment;
 
     public Track() { }
