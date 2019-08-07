@@ -34,7 +34,7 @@ private TrackService trackService;
         return responseEntity;
     }
     @GetMapping("track")
-    public ResponseEntity<?> getallTracks()
+    public ResponseEntity<?> getallTracks(ModelMap model)
     {
         ResponseEntity responseEntity=null;
 		List<Track> trackList = trackService.getAllTracks();
