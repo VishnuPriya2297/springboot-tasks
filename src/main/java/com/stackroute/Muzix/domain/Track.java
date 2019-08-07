@@ -13,12 +13,12 @@ public class Track {
 
     @Id
     private int id;
+    
     private String name;
+  
     private String comment;
 
-    public Track() {
-    }
-
+    public Track() { }
 
     public int getId() {
         return id;
