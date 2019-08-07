@@ -22,7 +22,7 @@ private TrackService trackService;
     @PostMapping("track")
     public ResponseEntity<?> save(@RequestBody Track track)
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         try {
             trackService.saveTrack(track);
             responseEntity=new ResponseEntity<String>("successfully created", HttpStatus.CREATED);
@@ -35,14 +35,19 @@ private TrackService trackService;
         return responseEntity;
     }
     @GetMapping("track")
-    public ResponseEntity<?> getallUsers()
+    public ResponseEntity<?> getAllTracks( ModelMap model)
     {
-        return  new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
+        ResponseEntity responseEntity=null;
+		List<Track> trackList = trackService.getAllTracks();
+		model.addAttribute("trackList", trackList);
+		responseEntity = new ResponseEntity<List<Track>>(trackList, HttpStatus.OK);
+		return responseEntity;
+      
     }
      @GetMapping("track/{id}")
     public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         try {
             responseEntity=new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
         }
@@ -53,11 +58,11 @@ private TrackService trackService;
         return responseEntity;
     }
     @DeleteMapping("track/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id )
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id ) throws TrackNotFoundException
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         trackService.deleteTrack(id);
-        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.FORBIDDEN);
+        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.OK);
         return responseEntity;
     }
    @GetMapping("trackname/{name}")
@@ -67,9 +72,9 @@ private TrackService trackService;
        return  new ResponseEntity<List<Track>>(trackService.getTrackByName(name),HttpStatus.OK);
    }
     @PutMapping("track")
-    public ResponseEntity<?> updateUser(@RequestBody Track track)
+    public ResponseEntity<?> updateUser(@RequestBody Track track) throws TrackNotFoundException
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         trackService.saveTrack(track);
         responseEntity=new ResponseEntity<String>("successfully Updated", HttpStatus.CREATED);
         return responseEntity;
