@@ -27,7 +27,7 @@ public class TrackController
     @PostMapping("track")
     public ResponseEntity<?> save(@RequestBody Track track)
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         try {
             trackService.saveTrack(track);
             responseEntity=new ResponseEntity<String>("successfully created", HttpStatus.CREATED);
@@ -40,23 +40,27 @@ public class TrackController
         return responseEntity;
     }
     @GetMapping("track")
-    public ResponseEntity<?> getallUsers()
+    public ResponseEntity<?> getAllTracks(ModelMap model)
     {
-        return  new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
+        ResponseEntity responseEntity=null;
+		List<Track> trackList = trackService.getAllTracks();
+		model.addAttribute("trackList", trackList);
+		responseEntity = new ResponseEntity<List<Track>>(trackList, HttpStatus.OK);
+		return responseEntity;
     }
     @DeleteMapping("track/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Integer id )
     {
 
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
         trackService.deleteTrack(id);
-        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.FORBIDDEN);
+        responseEntity=new ResponseEntity<String>("Deleted",HttpStatus.OK);
         return responseEntity;
     }
     @GetMapping("track/{id}")
     public ResponseEntity<?> getTrackById(@PathVariable(value = "id") Integer id)
     {
-        ResponseEntity responseEntity;
+        ResponseEntity responseEntity=null;
        try {
            responseEntity = new ResponseEntity<Track>(trackService.getTrackById(id), HttpStatus.OK);
        }
@@ -68,20 +72,6 @@ public class TrackController
         return responseEntity;
     }
 
- /*  @GetMapping("trackname/{name}")
-   //@Query("from Track where name=?1 ")
-   public ResponseEntity<?> getAllUsersByName(@PathVariable(value = "name") String name )
-   {
-       ResponseEntity responseEntity;
-       try {
-           responseEntity= new ResponseEntity<List<Track>>(trackService.getTrackByName(name), HttpStatus.OK);
-       }
-       catch (Exception e)
-       {
-           responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-       }
-       return responseEntity;
-   }*/
 
     @PutMapping("track")
     public ResponseEntity<?> updateUser(@RequestBody Track track)
