@@ -13,13 +13,11 @@ public class Track {
 
     @Id
     private int id;
+    
     private String name;
+ 
     private String comment;
-
-    public Track() {
-    }
-
-
+    public Track(){ }
     public int getId() {
         return id;
     }
@@ -35,7 +33,7 @@ public class Track {
     public void setName(String name) {
         this.name = name;
     }
-
+   
     public String getComment() {
         return comment;
     }
